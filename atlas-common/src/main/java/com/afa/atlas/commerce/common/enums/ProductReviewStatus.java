@@ -1,4 +1,4 @@
-package com.afa.atlas.commerce.catalog.enums;
+package com.afa.atlas.commerce.common.enums;
 
 public enum ProductReviewStatus {
 

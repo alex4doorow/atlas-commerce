@@ -1,6 +1,6 @@
 package com.afa.atlas.commerce.catalog.documents;
 
-import com.afa.atlas.commerce.catalog.enums.ProductReviewStatus;
+import com.afa.atlas.commerce.common.enums.ProductReviewStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.afa.atlas.commerce.order.dto;
 
-import com.afa.atlas.commerce.order.enums.OrderStatus;
+import com.afa.atlas.commerce.common.enums.OrderStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 

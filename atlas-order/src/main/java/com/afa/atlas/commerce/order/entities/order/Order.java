@@ -1,6 +1,6 @@
 package com.afa.atlas.commerce.order.entities.order;
 
-import com.afa.atlas.commerce.order.enums.OrderStatus;
+import com.afa.atlas.commerce.common.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

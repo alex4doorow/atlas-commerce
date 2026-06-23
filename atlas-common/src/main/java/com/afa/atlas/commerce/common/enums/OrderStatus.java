@@ -1,4 +1,4 @@
-package com.afa.atlas.commerce.order.enums;
+package com.afa.atlas.commerce.common.enums;
 
 public enum OrderStatus {
     CREATED,

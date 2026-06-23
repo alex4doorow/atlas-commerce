@@ -5,9 +5,9 @@ import com.afa.atlas.commerce.catalog.dto.review.ProductReviewResponse;
 import com.afa.atlas.commerce.catalog.dto.review.ProductReviewSaveRequest;
 import com.afa.atlas.commerce.catalog.dto.review.ProductReviewSummaryResponse;
 import com.afa.atlas.commerce.catalog.entities.Product;
-import com.afa.atlas.commerce.catalog.enums.ProductReviewStatus;
 import com.afa.atlas.commerce.catalog.mappers.ProductReviewMapper;
 import com.afa.atlas.commerce.catalog.repositories.mongo.ProductReviewRepository;
+import com.afa.atlas.commerce.common.enums.ProductReviewStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

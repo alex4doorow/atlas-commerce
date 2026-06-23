@@ -1,7 +1,7 @@
 package com.afa.atlas.commerce.catalog.repositories.mongo;
 
 import com.afa.atlas.commerce.catalog.documents.ProductReviewDocument;
-import com.afa.atlas.commerce.catalog.enums.ProductReviewStatus;
+import com.afa.atlas.commerce.common.enums.ProductReviewStatus;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

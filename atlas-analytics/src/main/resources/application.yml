@@ -21,11 +21,3 @@ spring:
 
   kafka:
     bootstrap-servers: ${ATLAS_KAFKA_URL}
-    consumer:
-      group-id: atlas-analytics
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring.json.trusted.packages: com.afa.atlas.commerce.*
-        spring.json.value.default.type: com.afa.atlas.commerce.common.events.OrderCreatedEvent

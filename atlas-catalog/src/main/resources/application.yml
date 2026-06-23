@@ -9,12 +9,20 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${KEYCLOACK_REALM_ATLAS_HOST}
+          issuer-uri: ${ATLAS_KEYCLOACK_REALM_HOST}
 
   datasource:
     url: ${ATLAS_CATALOG_DATABASE_URL}
     username: ${ATLAS_CATALOG_DATABASE_USER}
     password: ${ATLAS_CATALOG_DATABASE_PASS}
+    hikari:
+      pool-name: AtlasCatalogHikariPool
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      validation-timeout: 5000
 
   jpa:
     open-in-view: false
@@ -42,10 +50,10 @@ spring:
     default-property-inclusion: non_null
 
   rabbitmq:
-    host: ${RABBITMQ_HOST}
-    port: ${RABBITMQ_PORT}
-    username: ${RABBITMQ_USER}
-    password: ${RABBITMQ_PASS}
+    host: ${ATLAS_RABBITMQ_HOST}
+    port: ${ATLAS_RABBITMQ_PORT}
+    username: ${ATLAS_RABBITMQ_USER}
+    password: ${ATLAS_RABBITMQ_PASS}
 
   servlet:
     multipart:

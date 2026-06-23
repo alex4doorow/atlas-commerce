@@ -1,13 +1,13 @@
 package com.afa.atlas.commerce.order.services;
 
 import com.afa.atlas.commerce.common.dto.ProductDto;
+import com.afa.atlas.commerce.common.enums.OrderStatus;
 import com.afa.atlas.commerce.common.events.OrderCreatedEvent;
 import com.afa.atlas.commerce.order.clients.CatalogClient;
 import com.afa.atlas.commerce.order.dto.CreateOrderItemRequest;
 import com.afa.atlas.commerce.order.dto.OrderResponse;
 import com.afa.atlas.commerce.order.dto.OrderSaveRequest;
 import com.afa.atlas.commerce.order.entities.order.Order;
-import com.afa.atlas.commerce.order.enums.OrderStatus;
 import com.afa.atlas.commerce.order.kafka.OrderEventProducer;
 import com.afa.atlas.commerce.order.mappers.OrderMapper;
 import com.afa.atlas.commerce.order.repositories.OrderRepository;
