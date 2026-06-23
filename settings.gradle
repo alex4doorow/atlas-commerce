@@ -1,0 +1,8 @@
+rootProject.name = 'atlas-commerce'
+
+include 'atlas-common'
+include 'atlas-catalog'
+include 'atlas-search'
+include 'atlas-gateway'
+include 'atlas-order'
+include 'atlas-analytics'

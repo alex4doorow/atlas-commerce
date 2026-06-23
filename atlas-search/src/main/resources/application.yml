@@ -1,0 +1,25 @@
+server:
+  port: ${ATLAS_SEARCH_PORT}
+
+spring:
+  application:
+    name: atlas-search
+
+  elasticsearch:
+    uris: ${ELASTIC_SEARCH_URL}
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASS}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,beans
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

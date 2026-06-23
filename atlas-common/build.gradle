@@ -1,0 +1,39 @@
+plugins {
+    id 'java-library'
+}
+
+ext {
+    lombokVersion = '1.18.42'
+    swaggerVersion = '2.2.30'
+}
+
+dependencies {
+    // LOMBOK
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    // SWAGGER
+    api("io.swagger.core.v3:swagger-annotations-jakarta:${swaggerVersion}")
+
+    // TESTS
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+}
+
+subprojects {
+
+    apply plugin: 'pmd'
+
+    pmd {
+        toolVersion = "7.17.0"
+        ruleSetFiles = files("$rootDir/config/pmd/ruleset.xml")
+        ruleSets = []
+    }
+
+    tasks.withType(Pmd) {
+        reports {
+            html.required = true
+            xml.required = false
+        }
+    }
+}

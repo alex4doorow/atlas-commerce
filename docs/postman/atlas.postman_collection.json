@@ -1,0 +1,508 @@
+{
+  "info": {
+    "_postman_id": "582474f9-c927-47d4-8f11-358e31b20359",
+    "name": "atlas",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "24340529"
+  },
+  "item": [
+    {
+      "name": "catalog",
+      "item": [
+        {
+          "name": "catalog get by id",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8201/api/v1/products/90536839-bbb5-46d5-b543-93e4f277fa12",
+              "host": [
+                "localhost"
+              ],
+              "port": "8201",
+              "path": [
+                "api",
+                "v1",
+                "products",
+                "90536839-bbb5-46d5-b543-93e4f277fa12"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "catalog actuator",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8201/actuator",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8201",
+              "path": [
+                "actuator"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "catalog product create",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"sku\": \"10005\",\r\n    \"name\": \"product 5\",\r\n    \"brand\": \"Apple\",\r\n    \"description\": \"product 5\",\r\n    \"imageUrl\": \"product/5\",\r\n    \"price\": 8500.00,\r\n    \"quantity\": 11,\r\n    \"active\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8201/api/v1/products",
+              "host": [
+                "localhost"
+              ],
+              "port": "8201",
+              "path": [
+                "api",
+                "v1",
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "catalog product update",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"sku\": \"10003\",\r\n    \"name\": \"product 3\",\r\n    \"description\": \"product 3\",\r\n    \"imageUrl\": \"product/3\",\r\n    \"price\": 2500.00,\r\n    \"quantity\": 13,\r\n    \"active\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8201/api/v1/products/19372cef-68bf-4832-8f9c-c2a2dba85a05",
+              "host": [
+                "localhost"
+              ],
+              "port": "8201",
+              "path": [
+                "api",
+                "v1",
+                "products",
+                "19372cef-68bf-4832-8f9c-c2a2dba85a05"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "catalog product delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"sku\": \"10002\",\r\n    \"name\": \"product 2\",\r\n    \"description\": \"product 2\",\r\n    \"imageUrl\": \"product/2\",\r\n    \"price\": 2500.00,\r\n    \"quantity\": 11,\r\n    \"active\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8201/api/v1/products/a52678ae-0363-4309-9104-2427fd389174",
+              "host": [
+                "localhost"
+              ],
+              "port": "8201",
+              "path": [
+                "api",
+                "v1",
+                "products",
+                "a52678ae-0363-4309-9104-2427fd389174"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "catalog keycloak config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/realms/atlas/.well-known/openid-configuration",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "realms",
+                "atlas",
+                ".well-known",
+                "openid-configuration"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "catalog keycloak login",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "client_id",
+                  "value": "atlas-api",
+                  "type": "text",
+                  "uuid": "cbc53671-a195-4c20-85de-d5b7ab138d77"
+                },
+                {
+                  "key": "username",
+                  "value": "alex4doorow",
+                  "type": "text",
+                  "uuid": "4121a27e-50ba-4203-9c11-4a11448ad88a"
+                },
+                {
+                  "key": "password",
+                  "value": "1",
+                  "type": "text",
+                  "uuid": "6d51dd13-db21-499d-a187-3dc3fa2b8c47"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "password",
+                  "type": "text",
+                  "uuid": "d5894f21-f9e0-4c32-b3d9-680ce0a772a2"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/realms/atlas/protocol/openid-connect/token",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "realms",
+                "atlas",
+                "protocol",
+                "openid-connect",
+                "token"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "item": [
+        {
+          "name": "search add doc products",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": \"a52678ae-0363-4309-9104-2427fd389174\",\r\n  \"sku\": \"12345\",\r\n  \"name\": \"qwer\",\r\n  \"description\": \"ffff\",\r\n  \"price\": 123.00,\r\n  \"active\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8202/api/v1/search/products",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8202",
+              "path": [
+                "api",
+                "v1",
+                "search",
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "search by document",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8202/api/v1/search/products?q=qwer&page=0&size=20",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8202",
+              "path": [
+                "api",
+                "v1",
+                "search",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "qwer"
+                },
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "search elastic",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:9200/products/_search",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9200",
+              "path": [
+                "products",
+                "_search"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "search elastic by product",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:9200/products/_doc/19372cef-68bf-4832-8f9c-c2a2dba85a05",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9200",
+              "path": [
+                "products",
+                "_doc",
+                "19372cef-68bf-4832-8f9c-c2a2dba85a05"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "search actuator",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8202/actuator",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8202",
+              "path": [
+                "actuator"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "getway",
+      "item": [
+        {
+          "name": "getway get by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8200/api/v1/products/216cae34-bf0e-4ea4-90c1-5d043113400c",
+              "host": [
+                "localhost"
+              ],
+              "port": "8200",
+              "path": [
+                "api",
+                "v1",
+                "products",
+                "216cae34-bf0e-4ea4-90c1-5d043113400c"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getway search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8200/api/v1/search/products?query=product",
+              "host": [
+                "localhost"
+              ],
+              "port": "8200",
+              "path": [
+                "api",
+                "v1",
+                "search",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "query",
+                  "value": "product"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "order",
+      "item": [
+        {
+          "name": "order create order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"items\": [\r\n    {\r\n      \"productId\": \"4a6ee5be-8e09-44e3-92b1-b8c8f5eff1e1\",\r\n      \"price\": 2500.00,\r\n      \"quantity\": 2\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8203/api/v1/orders",
+              "host": [
+                "localhost"
+              ],
+              "port": "8203",
+              "path": [
+                "api",
+                "v1",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "const tokenUrl = 'localhost:8080/realms/atlas/protocol/openid-connect/token';\r",
+          "\r",
+          "const clientId = 'atlas-api';\r",
+          "const username = 'alex4doorow';\r",
+          "const password = '1';\r",
+          "\r",
+          "const getTokenRequest = {\r",
+          "  method: 'POST',\r",
+          "  header: 'Content-Type:application/x-www-form-urlencoded',  \r",
+          "  url: tokenUrl,\r",
+          "  body: {\r",
+          "      mode: 'urlencoded',\r",
+          "      urlencoded: [\r",
+          "          { key: 'grant_type', value: 'password' },\r",
+          "          { key: 'client_id', value: clientId },\r",
+          "          { key: 'username', value: username },\r",
+          "          { key: 'password', value: password }\r",
+          "      ]\r",
+          "  }\r",
+          "};\r",
+          "\r",
+          "pm.sendRequest(getTokenRequest, (err, response) => {\r",
+          "  const jsonResponse = response.json();\r",
+          "  const newAccessToken = jsonResponse.access_token;\r",
+          "  pm.collectionVariables.set('access_token', newAccessToken);\r",
+          "});"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "access_token",
+      "value": ""
+    }
+  ]
+}

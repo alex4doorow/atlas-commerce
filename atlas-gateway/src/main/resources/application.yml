@@ -1,0 +1,27 @@
+server:
+  port: ${ATLAS_GATEWAY_PORT}
+
+spring:
+  application:
+    name: atlas-gateway
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: atlas-catalog
+              uri: ${ATLAS_CATALOG_HOST}
+              predicates:
+                - Path=/api/v1/products/**
+
+            - id: atlas-search
+              uri: ${ATLAS_SEARCH_HOST}
+              predicates:
+                - Path=/api/v1/search/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

@@ -1,0 +1,103 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot'
+    id 'jacoco'
+}
+
+ext {
+    lombokVersion = '1.18.42'
+    testcontainersVersion = '1.21.3'
+    mapstructVersion = '1.6.3'
+}
+
+jacoco {
+    toolVersion = '0.8.13'
+}
+
+dependencies {
+    implementation platform("org.springframework.boot:spring-boot-dependencies:4.0.7")
+    implementation platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.14'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'org.springframework.boot:spring-boot-starter-kafka'
+
+    // SECURITY
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+    // FLYWAY
+    implementation 'org.springframework.boot:spring-boot-starter-flyway'
+    implementation 'org.flywaydb:flyway-database-postgresql'
+
+    // POSTGRES
+    runtimeOnly 'org.postgresql:postgresql'
+
+    // LOMBOK
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    // MAPSTRUCT
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+    // COMMON
+    implementation project(':atlas-common')
+
+    // TESTS
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"
+    testImplementation "org.testcontainers:postgresql:${testcontainersVersion}"
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+    testImplementation "org.testcontainers:kafka:${testcontainersVersion}"
+    runtimeOnly 'org.postgresql:postgresql'
+
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+subprojects {
+
+    apply plugin: 'pmd'
+
+    pmd {
+        toolVersion = "7.17.0"
+        ruleSetFiles = files("$rootDir/config/pmd/ruleset.xml")
+        ruleSets = []
+    }
+
+    tasks.withType(Pmd) {
+        reports {
+            html.required = true
+            xml.required = false
+        }
+    }
+
+    tasks.test {
+        finalizedBy tasks.jacocoTestReport
+    }
+
+    tasks.jacocoTestReport {
+        dependsOn tasks.test
+
+        reports {
+            xml.required = true
+            html.required = true
+            csv.required = false
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+        finalizedBy jacocoTestReport
+    }
+}
