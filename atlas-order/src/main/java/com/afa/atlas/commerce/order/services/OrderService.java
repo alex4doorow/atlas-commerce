@@ -16,7 +16,6 @@ import com.afa.atlas.commerce.order.kafka.OrderEventProducer;
 import com.afa.atlas.commerce.order.mappers.OrderMapper;
 import com.afa.atlas.commerce.order.repositories.OrderRepository;
 import feign.FeignException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -27,6 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
+
+import static com.afa.atlas.commerce.common.enums.AtlasErrorCode.ORDER_NOT_FOUND;
 
 @Slf4j
 @Service
@@ -75,7 +76,7 @@ public class OrderService {
     @Transactional(readOnly = true)
     public OrderResponse getById(final UUID id) {
         final Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Order not found: " + id));
+                .orElseThrow(() -> new AtlasException(ORDER_NOT_FOUND, "Order not found: %s".formatted(id)));
 
         return mapper.toResponse(order);
     }

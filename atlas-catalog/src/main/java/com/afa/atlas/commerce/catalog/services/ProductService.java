@@ -7,7 +7,6 @@ import com.afa.atlas.commerce.catalog.entities.Product;
 import com.afa.atlas.commerce.catalog.mappers.ProductMapper;
 import com.afa.atlas.commerce.catalog.repositories.ProductRepository;
 import com.afa.atlas.commerce.common.exceptions.AtlasException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -19,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.afa.atlas.commerce.common.enums.AtlasErrorCode.PRODUCT_NOT_FOUND;
@@ -33,6 +33,12 @@ public class ProductService {
     private final ProductMapper productMapper;
 
     private final ProductEventPublisher productEventPublisher;
+
+    public Product findByIdOrThrow(final UUID id) {
+        return findByIdOptional(id).orElseThrow(() ->
+                new AtlasException(PRODUCT_NOT_FOUND, "Product not found: %s".formatted(id))
+        );
+    }
 
     @Transactional(readOnly = true)
     public List<ProductDto> findAll(
@@ -69,7 +75,7 @@ public class ProductService {
     public ProductDto update(final UUID id, final ProductSaveRequest request) {
 
         final Product product = productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found: " + id));
+                .orElseThrow(() -> new AtlasException(PRODUCT_NOT_FOUND, "Product not found: %s".formatted(id)));
 
         product.setSku(request.sku());
         product.setName(request.name());
@@ -91,7 +97,7 @@ public class ProductService {
     public void delete(final UUID id) {
 
         final Product product = productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found: " + id));
+                .orElseThrow(() -> new AtlasException(PRODUCT_NOT_FOUND, "Product not found: %s".formatted(id)));
 
         productRepository.delete(product);
 
@@ -101,11 +107,15 @@ public class ProductService {
     @Transactional
     public ProductDto uploadImage(final UUID id, final MultipartFile file) throws IOException {
         final Product product = productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found: " + id));
+                .orElseThrow(() -> new AtlasException(PRODUCT_NOT_FOUND, "Product not found: %s".formatted(id)));
 
         final String imageUrl = imageStorageService.upload(id, file);
         product.setImageUrl(imageUrl);
 
         return productMapper.toDto(product);
+    }
+
+    private Optional<Product> findByIdOptional(final UUID id) {
+        return productRepository.findById(id);
     }
 }

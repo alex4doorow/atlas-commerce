@@ -34,6 +34,14 @@ services:
     ports:
       - "6379:6379"
 
+  atlas-mongodb:
+    image: mongo:8
+    container_name: atlas-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - atlas-mongodb-data:/data/db
+
   kafka:
     image: apache/kafka:4.1.0
     container_name: atlas-kafka
@@ -77,4 +85,5 @@ services:
 volumes:
   atlas_elasticsearch_data:
   atlas-minio-data:
+  atlas-mongodb-data:
 

@@ -44,6 +44,7 @@ public class SecurityConfig {
     }
 
     @Bean
+    @SuppressWarnings("unchecked")
     Converter<Jwt, AbstractAuthenticationToken> jwtAuthenticationConverter() {
         final JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
 
