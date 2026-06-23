@@ -34,6 +34,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SuppressWarnings("PMD.UnitTestShouldIncludeAssert")
 class ProductSearchControllerIT {
 
+    @DynamicPropertySource
+    static void registerProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.elasticsearch.uris", ELASTICSEARCH::getHttpHostAddress);
+    }
+
     @Container
     static final ElasticsearchContainer ELASTICSEARCH = new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch:9.0.3")
             .withEnv("discovery.type", "single-node")
@@ -94,21 +99,21 @@ class ProductSearchControllerIT {
     @Test
     void shouldSearchActiveAppleIphoneWithPriceLessThan100000() throws Exception {
 
-        mockMvc.perform(get("/api/v1/search/products")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/search/products")
                         .param("q", "iphone")
                         .param("brand", "Apple")
                         .param("maxPrice", "100000")
                         .param("page", "0")
                         .param("size", "10"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.items", hasSize(1)))
-                .andExpect(jsonPath("$.items[0].sku", is("10001")))
-                .andExpect(jsonPath("$.items[0].name", is("iPhone 15 Pro")))
-                .andExpect(jsonPath("$.items[0].brand", is("Apple")))
-                .andExpect(jsonPath("$.items[0].active", is(true)))
-                .andExpect(jsonPath("$.totalElements", is(1)))
-                .andExpect(jsonPath("$.page", is(0)))
-                .andExpect(jsonPath("$.size", is(10)));
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items", Matchers.hasSize(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items[0].sku", Matchers.is("10001")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items[0].name", Matchers.is("iPhone 15 Pro")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items[0].brand", Matchers.is("Apple")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items[0].active", Matchers.is(true)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.totalElements", Matchers.is(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.page", Matchers.is(0)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.size", Matchers.is(10)));
     }
 
     private void saveProduct(

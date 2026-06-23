@@ -73,6 +73,9 @@ dependencies {
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    integrationTestCompileOnly 'org.projectlombok:lombok'
+    integrationTestAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 subprojects {
@@ -110,4 +113,10 @@ subprojects {
         useJUnitPlatform()
         finalizedBy jacocoTestReport
     }
+
+    configurations {
+        integrationTestImplementation.extendsFrom testImplementation
+        integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+    }
+
 }

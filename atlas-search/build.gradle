@@ -38,27 +38,19 @@ dependencies {
     testImplementation "org.testcontainers:elasticsearch:${testcontainersVersion}"
     testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+configurations {
+    integrationTestImplementation.extendsFrom testImplementation
+    integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+    integrationTestCompileOnly.extendsFrom testCompileOnly
+    integrationTestAnnotationProcessor.extendsFrom testAnnotationProcessor
 }
 
 tasks.named('test') {
     useJUnitPlatform()
-}
-
-subprojects {
-
-    apply plugin: 'pmd'
-
-    pmd {
-        toolVersion = "7.17.0"
-        ruleSetFiles = files("$rootDir/config/pmd/ruleset.xml")
-        ruleSets = []
-    }
-
-    tasks.withType(Pmd) {
-        reports {
-            html.required = true
-            xml.required = false
-        }
-    }
 }

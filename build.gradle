@@ -59,5 +59,38 @@ subprojects {
 
     tasks.withType(Test).configureEach {
         useJUnitPlatform()
+        maxParallelForks = 1
+    }
+
+    sourceSets {
+        integrationTest {
+            java {
+                srcDirs = ['src/integrationTest/java']
+            }
+            resources {
+                srcDirs = ['src/integrationTest/resources']
+            }
+
+            compileClasspath += sourceSets.main.output + configurations.integrationTestCompileClasspath
+            runtimeClasspath += output + compileClasspath + configurations.integrationTestRuntimeClasspath
+        }
+    }
+
+    configurations {
+        integrationTestImplementation.extendsFrom testImplementation
+        integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+    }
+
+    tasks.register('integrationTest', Test) {
+        description = 'Runs integration tests.'
+        group = 'verification'
+
+        testClassesDirs = sourceSets.integrationTest.output.classesDirs
+        classpath = sourceSets.integrationTest.runtimeClasspath
+
+        useJUnitPlatform()
+
+        shouldRunAfter tasks.test
+        maxParallelForks = 1
     }
 }
