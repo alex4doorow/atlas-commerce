@@ -5,34 +5,42 @@ image:
 replicaCount: 1
 
 service:
+  type: ClusterIP
   port: 8201
 
 database:
-  url: jdbc:postgresql://host.docker.internal:5432/afa-atlas-commerce-catalog-test
-  user: postgres
-  password: postgres
+  url: "jdbc:postgresql://atlas-postgres:5432/afa-atlas-commerce-catalog-test"
+  user: "postgres"
 
 keycloak:
   realm:
-    host: http://host.docker.internal:8080/realms/atlas
+    host: "http://host.docker.internal:8080/realms/atlas"
 
 redis:
-  host: host.docker.internal
+  host: "atlas-redis"
   port: 6379
 
 mongodb:
-  host: mongodb://host.docker.internal:27017/atlas-catalog
+  host: "mongodb://host.docker.internal:27017/atlas-catalog"
 
 rabbit:
-  host: host.docker.internal
+  host: "atlas-rabbitmq"
   port: 5672
-  user: atlas
-  password: atlas
+  user: "atlas"
 
 s3:
-  host: http://host.docker.internal:9100
-  user: minioadmin
-  password: minioadmin
+  host: "http://host.docker.internal:9100"
+  user: "minioadmin"
   bucket:
-    url: http://localhost:9100/atlas-products
+    url: "http://localhost:9100/atlas-products"
 
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "250m"
+  limits:
+    memory: "1Gi"
+    cpu: "1000m"
+
+ingress:
+  enabled: true

@@ -25,6 +25,9 @@ spec:
           ports:
             - containerPort: {{ .Values.service.port }}
 
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+
           envFrom:
             - configMapRef:
                 name: atlas-catalog-config

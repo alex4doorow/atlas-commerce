@@ -86,4 +86,3 @@ volumes:
   atlas_elasticsearch_data:
   atlas-minio-data:
   atlas-mongodb-data:
-
