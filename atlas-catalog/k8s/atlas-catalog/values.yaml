@@ -1,0 +1,38 @@
+image:
+  repository: atlas-catalog
+  tag: "1.0"
+
+replicaCount: 1
+
+service:
+  port: 8201
+
+database:
+  url: jdbc:postgresql://host.docker.internal:5432/afa-atlas-commerce-catalog-test
+  user: postgres
+  password: postgres
+
+keycloak:
+  realm:
+    host: http://host.docker.internal:8080/realms/atlas
+
+redis:
+  host: host.docker.internal
+  port: 6379
+
+mongodb:
+  host: mongodb://host.docker.internal:27017/atlas-catalog
+
+rabbit:
+  host: host.docker.internal
+  port: 5672
+  user: atlas
+  password: atlas
+
+s3:
+  host: http://host.docker.internal:9100
+  user: minioadmin
+  password: minioadmin
+  bucket:
+    url: http://localhost:9100/atlas-products
+

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: atlas-catalog
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: atlas-catalog
+
+  template:
+    metadata:
+      labels:
+        app: atlas-catalog
+
+    spec:
+      containers:
+        - name: atlas-catalog
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: Never
+
+          ports:
+            - containerPort: {{ .Values.service.port }}
+
+          envFrom:
+            - configMapRef:
+                name: atlas-catalog-config
+
+            - secretRef:
+                name: atlas-catalog-secret
+
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: 45
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3

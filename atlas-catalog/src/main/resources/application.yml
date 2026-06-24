@@ -43,8 +43,9 @@ spring:
     redis:
       host: ${ATLAS_REDIS_HOST}
       port: ${ATLAS_REDIS_PORT}
-    mongodb:
-      uri: ${ATLAS_MONGODB_HOST}
+
+  mongodb:
+    uri: ${ATLAS_MONGODB_HOST}
 
   jackson:
     default-property-inclusion: non_null
