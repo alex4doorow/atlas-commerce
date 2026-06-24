@@ -21,7 +21,7 @@ redis:
   port: 6379
 
 mongodb:
-  host: "mongodb://host.docker.internal:27017/atlas-catalog"
+  host: "mongodb://atlas-mongodb:27017/atlas-catalog"
 
 rabbit:
   host: "atlas-rabbitmq"

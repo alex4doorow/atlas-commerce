@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: atlas-catalog
+  name: atlas-search
 
 spec:
   replicas: {{ .Values.replicaCount }}
@@ -10,16 +10,16 @@ spec:
 
   selector:
     matchLabels:
-      app: atlas-catalog
+      app: atlas-search
 
   template:
     metadata:
       labels:
-        app: atlas-catalog
+        app: atlas-search
 
     spec:
       containers:
-        - name: atlas-catalog
+        - name: atlas-search
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: Never
 
@@ -31,14 +31,14 @@ spec:
 
           envFrom:
             - configMapRef:
-                name: atlas-catalog-config
+                name: atlas-search-config
 
             - secretRef:
-                name: atlas-catalog-secret
+                name: atlas-search-secret
 
           readinessProbe:
             httpGet:
-              path: /actuator/health/readiness
+              path: /actuator/health
               port: {{ .Values.service.port }}
             initialDelaySeconds: 20
             periodSeconds: 10
@@ -47,9 +47,9 @@ spec:
 
           livenessProbe:
             httpGet:
-              path: /actuator/health/liveness
+              path: /actuator/health
               port: {{ .Values.service.port }}
-            initialDelaySeconds: 60
+            initialDelaySeconds: 45
             periodSeconds: 10
             timeoutSeconds: 3
             failureThreshold: 3

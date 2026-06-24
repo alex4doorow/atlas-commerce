@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: atlas-search-config
+
+data:
+  ATLAS_SEARCH_PORT: "{{ .Values.service.port }}"
+
+  ATLAS_RABBITMQ_HOST: "{{ .Values.rabbitmq.host }}"
+  ATLAS_RABBITMQ_PORT: "{{ .Values.rabbitmq.port }}"
+  ATLAS_RABBITMQ_USER: "{{ .Values.rabbitmq.user }}"
+
+  RABBITMQ_HOST: "{{ .Values.rabbitmq.host }}"
+  RABBITMQ_PORT: "{{ .Values.rabbitmq.port }}"
+  RABBITMQ_USER: "{{ .Values.rabbitmq.user }}"
+
+  ELASTIC_SEARCH_URL: "{{ .Values.elastic.url }}"
