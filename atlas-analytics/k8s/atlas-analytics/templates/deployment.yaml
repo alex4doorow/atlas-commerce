@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: atlas-catalog
+  name: atlas-analytics
 
 spec:
   replicas: {{ .Values.replicaCount }}
@@ -10,16 +10,16 @@ spec:
 
   selector:
     matchLabels:
-      app: atlas-catalog
+      app: atlas-analytics
 
   template:
     metadata:
       labels:
-        app: atlas-catalog
+        app: atlas-analytics
 
     spec:
       containers:
-        - name: atlas-catalog
+        - name: atlas-analytics
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: Never
 
@@ -35,10 +35,10 @@ spec:
 
           envFrom:
             - configMapRef:
-                name: atlas-catalog-config
+                name: atlas-analytics-config
 
             - secretRef:
-                name: atlas-catalog-secret
+                name: atlas-analytics-secret
 
           readinessProbe:
             httpGet:

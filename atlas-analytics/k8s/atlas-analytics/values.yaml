@@ -1,0 +1,27 @@
+image:
+  repository: atlas-analytics
+  tag: "1.0"
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 8204
+
+database:
+  url: "jdbc:postgresql://atlas-postgres:5432/afa-atlas-commerce-analytics-test"
+  user: "postgres"
+
+kafka:
+  url: "atlas-kafka:9092"
+
+resources:
+  requests:
+    memory: "246Mi"
+    cpu: "250m"
+  limits:
+    memory: "512Mi"
+    cpu: "1000m"
+
+ingress:
+  enabled: true

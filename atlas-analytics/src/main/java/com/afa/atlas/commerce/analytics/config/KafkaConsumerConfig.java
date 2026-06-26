@@ -18,7 +18,7 @@ import java.util.Map;
 public class KafkaConsumerConfig {
 
     @Value("${spring.kafka.bootstrap-servers}")
-    private int kafkaBootstrapServerUrl;
+    private String kafkaBootstrapServerUrl;
 
     @Bean
     public ConsumerFactory<String, OrderCreatedEvent> consumerFactory() {

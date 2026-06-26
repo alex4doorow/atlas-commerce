@@ -9,6 +9,14 @@ spring:
     url: ${ATLAS_ANALYTICS_DATABASE_URL}
     username: ${ATLAS_ANALYTICS_DATABASE_USER}
     password: ${ATLAS_ANALYTICS_DATABASE_PASS}
+    hikari:
+      pool-name: AtlasAnalyticsHikariPool
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      validation-timeout: 5000
 
   jpa:
     open-in-view: false

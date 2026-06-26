@@ -5,8 +5,8 @@ metadata:
 data:
   init.sql: |
     CREATE DATABASE "afa-atlas-commerce-catalog-test";
-    CREATE DATABASE "afa-atlas-order-test";
-
+    CREATE DATABASE "afa-atlas-commerce-order-test";
+    CREATE DATABASE "afa-atlas-commerce-analytics-test";
 ---
 apiVersion: v1
 kind: Service
