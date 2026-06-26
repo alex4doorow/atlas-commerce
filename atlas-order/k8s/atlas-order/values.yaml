@@ -9,7 +9,7 @@ service:
   port: 8203
 
 database:
-  url: "jdbc:postgresql://atlas-postgres:5432/afa-atlas-order-test"
+  url: "jdbc:postgresql://atlas-postgres:5432/afa-atlas-commerce-order-test"
   user: "postgres"
 
 keycloak:
@@ -24,10 +24,10 @@ kafka:
 
 resources:
   requests:
-    memory: "512Mi"
+    memory: "256Mi"
     cpu: "250m"
   limits:
-    memory: "1Gi"
+    memory: "512Mi"
     cpu: "1000m"
 
 ingress:

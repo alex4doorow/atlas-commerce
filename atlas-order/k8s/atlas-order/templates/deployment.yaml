@@ -29,6 +29,10 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms128m -Xmx256m"
+
           envFrom:
             - configMapRef:
                 name: atlas-order-config
