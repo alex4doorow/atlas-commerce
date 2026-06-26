@@ -1,0 +1,34 @@
+image:
+  repository: atlas-order
+  tag: "1.0"
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 8203
+
+database:
+  url: "jdbc:postgresql://atlas-postgres:5432/afa-atlas-order-test"
+  user: "postgres"
+
+keycloak:
+  realm:
+    host: "http://host.docker.internal:8080/realms/atlas"
+
+catalog:
+  url: "http://atlas-catalog:8201"
+
+kafka:
+  url: "atlas-kafka:9092"
+
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "250m"
+  limits:
+    memory: "1Gi"
+    cpu: "1000m"
+
+ingress:
+  enabled: true

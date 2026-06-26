@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: atlas-order-config
+
+data:
+  ATLAS_ORDER_PORT: "{{ .Values.service.port }}"
+
+  ATLAS_ORDER_DATABASE_URL: "{{ .Values.database.url }}"
+  ATLAS_ORDER_DATABASE_USER: "{{ .Values.database.user }}"
+
+  ATLAS_KEYCLOACK_REALM_HOST: "{{ .Values.keycloak.realm.host }}"
+
+  ATLAS_CATALOG_URL: "{{ .Values.catalog.url }}"
+
+  ATLAS_KAFKA_URL: "{{ .Values.kafka.url }}"

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: atlas-order
+
+spec:
+  type: {{ .Values.service.type }}
+
+  selector:
+    app: atlas-order
+
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.port }}

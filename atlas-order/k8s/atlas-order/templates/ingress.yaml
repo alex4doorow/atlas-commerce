@@ -2,18 +2,18 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: atlas-catalog
+  name: atlas-order
 spec:
   ingressClassName: nginx
   rules:
-    - host: atlas-catalog.local
+    - host: atlas-order.local
       http:
         paths:
-          - path: /api/v1/products
+          - path: /api/v1/orders
             pathType: Prefix
             backend:
               service:
-                name: atlas-catalog
+                name: atlas-order
                 port:
                   number: {{ .Values.service.port }}
 {{- end }}

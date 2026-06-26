@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: atlas-order
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: 2
+
+  selector:
+    matchLabels:
+      app: atlas-order
+
+  template:
+    metadata:
+      labels:
+        app: atlas-order
+
+    spec:
+      containers:
+        - name: atlas-order
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: Never
+
+          ports:
+            - containerPort: {{ .Values.service.port }}
+
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+
+          envFrom:
+            - configMapRef:
+                name: atlas-order-config
+
+            - secretRef:
+                name: atlas-order-secret
+
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
