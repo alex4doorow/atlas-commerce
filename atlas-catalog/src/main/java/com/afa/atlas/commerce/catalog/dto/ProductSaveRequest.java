@@ -1,5 +1,6 @@
 package com.afa.atlas.commerce.catalog.dto;
 
+import com.afa.atlas.commerce.common.validation.ValidSku;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 @Schema(description = "Product save request")
 public record ProductSaveRequest(
 
+        @ValidSku
         @NotBlank
         @Size(max = 64)
         @Schema(description = "Product SKU")

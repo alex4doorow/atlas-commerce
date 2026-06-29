@@ -5,6 +5,7 @@ plugins {
 ext {
     lombokVersion = '1.18.42'
     swaggerVersion = '2.2.30'
+    jakartaValidationVersion = '3.1.1'
 }
 
 dependencies {
@@ -15,9 +16,21 @@ dependencies {
     // SWAGGER
     api("io.swagger.core.v3:swagger-annotations-jakarta:${swaggerVersion}")
 
+    // VALIDATION
+    implementation("jakarta.validation:jakarta.validation-api:${jakartaValidationVersion}")
+
     // TESTS
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    testImplementation("org.junit.jupiter:junit-jupiter:5.13.4")
+    testImplementation("org.assertj:assertj-core:3.27.6")
+
+    // Для Validation.buildDefaultValidatorFactory()
+    testImplementation("org.hibernate.validator:hibernate-validator:9.0.1.Final")
+    testRuntimeOnly("org.glassfish.expressly:expressly:6.0.0")
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.13.4")
 }
 
 subprojects {
@@ -35,5 +48,9 @@ subprojects {
             html.required = true
             xml.required = false
         }
+    }
+
+    tasks.test {
+        useJUnitPlatform()
     }
 }

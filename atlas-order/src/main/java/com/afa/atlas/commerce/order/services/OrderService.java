@@ -1,8 +1,10 @@
 package com.afa.atlas.commerce.order.services;
 
+import com.afa.atlas.commerce.common.annotation.OrderAudit;
 import com.afa.atlas.commerce.common.dto.PageResponse;
 import com.afa.atlas.commerce.common.dto.ProductDto;
 import com.afa.atlas.commerce.common.enums.AtlasErrorCode;
+import com.afa.atlas.commerce.common.enums.OrderOperation;
 import com.afa.atlas.commerce.common.enums.OrderStatus;
 import com.afa.atlas.commerce.common.events.OrderCreatedEvent;
 import com.afa.atlas.commerce.common.exceptions.AtlasException;
@@ -39,6 +41,7 @@ public class OrderService {
     private final CatalogClient catalogClient;
     private final OrderMapper mapper;
 
+    @OrderAudit(operation = OrderOperation.CREATE)
     @Transactional
     public OrderResponse create(final OrderSaveRequest request) {
         final Order order = new Order();
