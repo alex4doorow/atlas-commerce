@@ -15,6 +15,11 @@ spring:
     enabled: true
     locations: classpath:db/migration
 
+  datasource:
+    url: jdbc:postgresql://localhost:5432/afa-atlas-commerce-order-test
+    username: postgres
+    password: postgres
+
   jpa:
     open-in-view: false
     hibernate:
@@ -34,3 +39,10 @@ spring:
 clients:
   catalog:
     url: http://localhost:8201
+
+atlas:
+  observability:
+    enabled: true
+  crypto:
+    enabled: true
+    secret: 12345678901234567890123456789012

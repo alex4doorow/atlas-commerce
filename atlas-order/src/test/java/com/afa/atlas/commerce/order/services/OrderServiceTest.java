@@ -4,12 +4,14 @@ import com.afa.atlas.commerce.common.dto.ProductDto;
 import com.afa.atlas.commerce.common.enums.OrderStatus;
 import com.afa.atlas.commerce.common.events.OrderCreatedEvent;
 import com.afa.atlas.commerce.order.clients.CatalogClient;
-import com.afa.atlas.commerce.order.dto.CreateOrderItemRequest;
-import com.afa.atlas.commerce.order.dto.OrderResponse;
-import com.afa.atlas.commerce.order.dto.OrderSaveRequest;
+import com.afa.atlas.commerce.order.dto.order.CreateOrderItemRequest;
+import com.afa.atlas.commerce.order.dto.order.OrderResponse;
+import com.afa.atlas.commerce.order.dto.order.OrderSaveRequest;
+import com.afa.atlas.commerce.order.entities.customer.Customer;
 import com.afa.atlas.commerce.order.entities.order.Order;
 import com.afa.atlas.commerce.order.kafka.OrderEventProducer;
 import com.afa.atlas.commerce.order.mappers.OrderMapper;
+import com.afa.atlas.commerce.order.repositories.CustomerRepository;
 import com.afa.atlas.commerce.order.repositories.OrderRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,6 +32,9 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 @SuppressWarnings({"PMD.UnitTestContainsTooManyAsserts"})
 class OrderServiceTest {
+
+    @Mock
+    private CustomerRepository customerRepository;
 
     @Mock
     private OrderRepository orderRepository;
@@ -50,14 +56,25 @@ class OrderServiceTest {
 
         final UUID productId = UUID.randomUUID();
         final UUID orderId = UUID.randomUUID();
+        final UUID customerId = UUID.randomUUID();
 
         final OrderSaveRequest request = OrderSaveRequest.builder()
+                .customerId(customerId)
                 .items(List.of(new CreateOrderItemRequest(
                         productId,
                         BigDecimal.valueOf(1000),
                         2
                 )))
                 .build();
+
+        final Customer customer = new Customer();
+        customer.setId(customerId);
+        customer.setFirstName("Alexey");
+        customer.setLastName("Fedorov");
+        customer.setEmail("alexey.fedorov@example.com");
+        customer.setPhone("+79991234567");
+
+        when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
 
         final ProductDto product = ProductDto.builder()
                 .id(productId)

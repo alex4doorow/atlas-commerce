@@ -1,6 +1,7 @@
 package com.afa.atlas.commerce.order.entities.order;
 
 import com.afa.atlas.commerce.common.enums.OrderStatus;
+import com.afa.atlas.commerce.order.entities.customer.Customer;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +26,7 @@ import java.util.UUID;
 public class Order {
 
     @Id
-    private UUID id;
+    private UUID id = UUID.randomUUID();
 
     @Column(name = "order_number", nullable = false, unique = true)
     private String orderNumber;
@@ -33,6 +34,10 @@ public class Order {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrderStatus status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 
     @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount;

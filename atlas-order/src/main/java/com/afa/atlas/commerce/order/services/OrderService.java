@@ -9,13 +9,15 @@ import com.afa.atlas.commerce.common.enums.OrderStatus;
 import com.afa.atlas.commerce.common.events.OrderCreatedEvent;
 import com.afa.atlas.commerce.common.exceptions.AtlasException;
 import com.afa.atlas.commerce.order.clients.CatalogClient;
-import com.afa.atlas.commerce.order.dto.CreateOrderItemRequest;
-import com.afa.atlas.commerce.order.dto.OrderResponse;
-import com.afa.atlas.commerce.order.dto.OrderSaveRequest;
+import com.afa.atlas.commerce.order.dto.order.CreateOrderItemRequest;
+import com.afa.atlas.commerce.order.dto.order.OrderResponse;
+import com.afa.atlas.commerce.order.dto.order.OrderSaveRequest;
+import com.afa.atlas.commerce.order.entities.customer.Customer;
 import com.afa.atlas.commerce.order.entities.order.Order;
 import com.afa.atlas.commerce.order.entities.order.OrderItem;
 import com.afa.atlas.commerce.order.kafka.OrderEventProducer;
 import com.afa.atlas.commerce.order.mappers.OrderMapper;
+import com.afa.atlas.commerce.order.repositories.CustomerRepository;
 import com.afa.atlas.commerce.order.repositories.OrderRepository;
 import com.afa.atlas.observability.annotation.AtlasObservedService;
 import feign.FeignException;
@@ -32,6 +34,7 @@ import java.util.UUID;
 
 import static com.afa.atlas.commerce.common.enums.AtlasErrorCode.ORDER_NOT_FOUND;
 
+@SuppressWarnings({"PMD.ExcessiveImports"})
 @AtlasObservedService
 @Slf4j
 @Service
@@ -40,17 +43,24 @@ public class OrderService {
 
     private final OrderEventProducer orderEventProducer;
     private final OrderRepository orderRepository;
+    private final CustomerRepository customerRepository;
     private final CatalogClient catalogClient;
     private final OrderMapper mapper;
 
     @OrderAudit(operation = OrderOperation.CREATE)
     @Transactional
     public OrderResponse create(final OrderSaveRequest request) {
-        final Order order = new Order();
 
+        final Customer customer = customerRepository.findById(request.customerId())
+                .orElseThrow(() -> new AtlasException(AtlasErrorCode.CUSTOMER_NOT_FOUND,
+                        "Customer not found: %s".formatted(request.customerId())
+                ));
+
+        final Order order = new Order();
         order.setId(UUID.randomUUID());
         order.setOrderNumber(generateOrderNumber());
         order.setStatus(OrderStatus.CREATED);
+        order.setCustomer(customer);
 
         final List<OrderItem> items = request.items().stream()
                 .map(itemRequest -> createOrderItem(order, itemRequest))

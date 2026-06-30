@@ -20,12 +20,12 @@ import org.springframework.context.annotation.Bean;
 public class AtlasObservabilityAutoConfiguration {
 
     @Bean
-    public static AtlasObservabilityBeanFactoryPostProcessor atlasAuditBeanFactoryPostProcessor() {
+    public static AtlasObservabilityBeanFactoryPostProcessor atlasObservabilityBeanFactoryPostProcessor() {
         return new AtlasObservabilityBeanFactoryPostProcessor();
     }
 
     @Bean
-    public static AtlasObservabilityBeanPostProcessor atlasAuditBeanPostProcessor(
+    public static AtlasObservabilityBeanPostProcessor atlasObservabilityBeanPostProcessor(
             final ConfigurableListableBeanFactory beanFactory) {
         return new AtlasObservabilityBeanPostProcessor(beanFactory);
     }

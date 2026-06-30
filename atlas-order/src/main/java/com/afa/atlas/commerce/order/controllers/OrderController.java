@@ -2,8 +2,8 @@ package com.afa.atlas.commerce.order.controllers;
 
 import com.afa.atlas.commerce.common.dto.PageResponse;
 import com.afa.atlas.commerce.order.controllers.internal.ControllerConstants;
-import com.afa.atlas.commerce.order.dto.OrderResponse;
-import com.afa.atlas.commerce.order.dto.OrderSaveRequest;
+import com.afa.atlas.commerce.order.dto.order.OrderResponse;
+import com.afa.atlas.commerce.order.dto.order.OrderSaveRequest;
 import com.afa.atlas.commerce.order.services.OrderService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

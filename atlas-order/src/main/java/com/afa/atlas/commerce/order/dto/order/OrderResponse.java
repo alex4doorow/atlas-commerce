@@ -1,4 +1,4 @@
-package com.afa.atlas.commerce.order.dto;
+package com.afa.atlas.commerce.order.dto.order;
 
 import com.afa.atlas.commerce.common.enums.OrderStatus;
 import io.swagger.v3.oas.annotations.media.Schema;

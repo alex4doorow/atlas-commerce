@@ -2,6 +2,7 @@ create table orders
 (
     id           uuid primary key,
     order_number varchar(64)    not null unique,
+    customer_id  uuid           not null,
     status       varchar(30)    not null,
     total_amount numeric(19, 2) not null,
     created_at   timestamptz    not null,
@@ -9,6 +10,11 @@ create table orders
 );
 CREATE UNIQUE INDEX uq_orders_order_number ON orders (order_number);
 CREATE INDEX idx_orders_status ON orders (status);
+
+ALTER TABLE orders
+    ADD CONSTRAINT fk_orders_customer_id
+        FOREIGN KEY (customer_id)
+            REFERENCES customers (id);
 
 create table order_items
 (

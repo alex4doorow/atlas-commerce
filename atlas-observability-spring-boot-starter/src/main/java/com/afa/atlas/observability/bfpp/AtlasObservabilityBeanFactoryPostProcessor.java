@@ -14,7 +14,7 @@ public class AtlasObservabilityBeanFactoryPostProcessor implements BeanFactoryPo
 
     private static final Logger log = LoggerFactory.getLogger(AtlasObservabilityBeanFactoryPostProcessor.class);
 
-    private static final String AUDITED_ANNOTATION = AtlasObservedService.class.getName();
+    private static final String OBSERVABILITY_ANNOTATION = AtlasObservedService.class.getName();
 
     @Override
     public void postProcessBeanFactory(final ConfigurableListableBeanFactory beanFactory) {
@@ -25,11 +25,11 @@ public class AtlasObservabilityBeanFactoryPostProcessor implements BeanFactoryPo
                 continue;
             }
 
-            final boolean audited = annotatedBeanDefinition.getMetadata().hasAnnotation(AUDITED_ANNOTATION);
+            final boolean Observability = annotatedBeanDefinition.getMetadata().hasAnnotation(OBSERVABILITY_ANNOTATION);
 
-            if (audited) {
+            if (Observability) {
                 beanDefinition.setAttribute(OBSERVED_BEAN, Boolean.TRUE);
-                log.info("I. Atlas audit attribute has been added to bean definition '{}': {}",
+                log.info("I. Atlas observability attribute has been added to bean definition '{}': {}",
                         beanName,
                         beanDefinition.getBeanClassName());
             }

@@ -19,7 +19,7 @@ import java.util.UUID;
 public class OrderItem {
 
     @Id
-    private UUID id;
+    private UUID id = UUID.randomUUID();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")

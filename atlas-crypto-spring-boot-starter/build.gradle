@@ -1,0 +1,36 @@
+plugins {
+    id 'java-library'
+}
+
+group = 'com.afa.atlas.crypto'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    api platform('org.springframework.boot:spring-boot-dependencies:4.0.7')
+    annotationProcessor platform('org.springframework.boot:spring-boot-dependencies:4.0.7')
+
+    api 'org.springframework.boot:spring-boot-autoconfigure'
+    api 'org.springframework:spring-context'
+    api 'org.springframework:spring-beans'
+    api 'org.slf4j:slf4j-api'
+
+    annotationProcessor 'org.springframework.boot:spring-boot-autoconfigure-processor'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+}

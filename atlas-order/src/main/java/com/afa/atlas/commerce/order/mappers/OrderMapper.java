@@ -1,7 +1,7 @@
 package com.afa.atlas.commerce.order.mappers;
 
-import com.afa.atlas.commerce.order.dto.OrderItemResponse;
-import com.afa.atlas.commerce.order.dto.OrderResponse;
+import com.afa.atlas.commerce.order.dto.order.OrderItemResponse;
+import com.afa.atlas.commerce.order.dto.order.OrderResponse;
 import com.afa.atlas.commerce.order.entities.order.Order;
 import com.afa.atlas.commerce.order.entities.order.OrderItem;
 import org.mapstruct.Mapper;

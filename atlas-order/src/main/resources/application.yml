@@ -71,5 +71,8 @@ logging:
 atlas:
   observability:
     enabled: false
+  crypto:
+    enabled: true
+    secret: ${ATLAS_CRYPTO_SECRET}
 
 
