@@ -68,4 +68,8 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
 
+atlas:
+  observability:
+    enabled: false
+
 

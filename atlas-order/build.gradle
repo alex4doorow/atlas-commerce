@@ -49,6 +49,9 @@ dependencies {
     // COMMON
     implementation project(':atlas-common')
 
+    // STARTER
+    implementation project(':atlas-observability-spring-boot-starter')
+
     // TESTS
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"

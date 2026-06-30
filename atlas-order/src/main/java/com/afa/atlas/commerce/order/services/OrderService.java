@@ -17,6 +17,7 @@ import com.afa.atlas.commerce.order.entities.order.OrderItem;
 import com.afa.atlas.commerce.order.kafka.OrderEventProducer;
 import com.afa.atlas.commerce.order.mappers.OrderMapper;
 import com.afa.atlas.commerce.order.repositories.OrderRepository;
+import com.afa.atlas.observability.annotation.AtlasObservedService;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ import java.util.UUID;
 
 import static com.afa.atlas.commerce.common.enums.AtlasErrorCode.ORDER_NOT_FOUND;
 
+@AtlasObservedService
 @Slf4j
 @Service
 @RequiredArgsConstructor
