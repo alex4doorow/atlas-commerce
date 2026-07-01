@@ -1,6 +1,5 @@
 package com.afa.atlas.commerce.order.services;
 
-import com.afa.atlas.commerce.common.dto.ProductDto;
 import com.afa.atlas.commerce.common.enums.OrderStatus;
 import com.afa.atlas.commerce.common.events.OrderCreatedEvent;
 import com.afa.atlas.commerce.order.clients.CatalogClient;
@@ -9,6 +8,7 @@ import com.afa.atlas.commerce.order.dto.order.OrderResponse;
 import com.afa.atlas.commerce.order.dto.order.OrderSaveRequest;
 import com.afa.atlas.commerce.order.entities.customer.Customer;
 import com.afa.atlas.commerce.order.entities.order.Order;
+import com.afa.atlas.commerce.order.entities.order.OrderItem;
 import com.afa.atlas.commerce.order.kafka.OrderEventProducer;
 import com.afa.atlas.commerce.order.mappers.OrderMapper;
 import com.afa.atlas.commerce.order.repositories.CustomerRepository;
@@ -51,6 +51,9 @@ class OrderServiceTest {
     @InjectMocks
     private OrderService service;
 
+    @Mock
+    private OrderItemService orderItemService;
+
     @Test
     void shouldCreateOrder() {
 
@@ -76,15 +79,6 @@ class OrderServiceTest {
 
         when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
 
-        final ProductDto product = ProductDto.builder()
-                .id(productId)
-                .sku("sku-001")
-                .name("Test Product")
-                .price(BigDecimal.valueOf(1000))
-                .quantity(10)
-                .active(true)
-                .build();
-
         final OrderResponse response = OrderResponse.builder()
                 .id(orderId)
                 .orderNumber("ORD-TEST")
@@ -93,7 +87,18 @@ class OrderServiceTest {
                 .items(List.of())
                 .build();
 
-        when(catalogClient.getProductById(productId)).thenReturn(product);
+        final OrderItem item = new OrderItem();
+        item.setId(UUID.randomUUID());
+        item.setProductId(productId);
+        item.setSku("sku-001");
+        item.setProductName("Test Product");
+        item.setPrice(BigDecimal.valueOf(1000));
+        item.setQuantity(2);
+        item.setLineAmount(BigDecimal.valueOf(2000));
+
+        when(orderItemService.createItems(any(Order.class), eq(request.items())))
+                .thenReturn(List.of(item));
+
         when(orderRepository.saveAndFlush(any(Order.class))).thenAnswer(invocation -> {
             final Order order = invocation.getArgument(0);
             order.setCreatedAt(OffsetDateTime.now());
@@ -105,7 +110,7 @@ class OrderServiceTest {
         final OrderResponse result = service.create(request);
 
         assertThat(result).isSameAs(response);
-        verify(catalogClient).getProductById(productId);
+        verify(orderItemService).createItems(any(Order.class), eq(request.items()));
         verify(orderRepository).saveAndFlush(argThat(order ->
                 order.getId() != null
                         && order.getOrderNumber() != null

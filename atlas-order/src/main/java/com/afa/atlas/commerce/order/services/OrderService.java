@@ -2,14 +2,11 @@ package com.afa.atlas.commerce.order.services;
 
 import com.afa.atlas.commerce.common.annotation.OrderAudit;
 import com.afa.atlas.commerce.common.dto.PageResponse;
-import com.afa.atlas.commerce.common.dto.ProductDto;
 import com.afa.atlas.commerce.common.enums.AtlasErrorCode;
 import com.afa.atlas.commerce.common.enums.OrderOperation;
 import com.afa.atlas.commerce.common.enums.OrderStatus;
 import com.afa.atlas.commerce.common.events.OrderCreatedEvent;
 import com.afa.atlas.commerce.common.exceptions.AtlasException;
-import com.afa.atlas.commerce.order.clients.CatalogClient;
-import com.afa.atlas.commerce.order.dto.order.CreateOrderItemRequest;
 import com.afa.atlas.commerce.order.dto.order.OrderResponse;
 import com.afa.atlas.commerce.order.dto.order.OrderSaveRequest;
 import com.afa.atlas.commerce.order.entities.customer.Customer;
@@ -20,7 +17,6 @@ import com.afa.atlas.commerce.order.mappers.OrderMapper;
 import com.afa.atlas.commerce.order.repositories.CustomerRepository;
 import com.afa.atlas.commerce.order.repositories.OrderRepository;
 import com.afa.atlas.observability.annotation.AtlasObservedService;
-import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -34,7 +30,6 @@ import java.util.UUID;
 
 import static com.afa.atlas.commerce.common.enums.AtlasErrorCode.ORDER_NOT_FOUND;
 
-@SuppressWarnings({"PMD.ExcessiveImports"})
 @AtlasObservedService
 @Slf4j
 @Service
@@ -44,8 +39,8 @@ public class OrderService {
     private final OrderEventProducer orderEventProducer;
     private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;
-    private final CatalogClient catalogClient;
     private final OrderMapper mapper;
+    private final OrderItemService orderItemFactory;
 
     @OrderAudit(operation = OrderOperation.CREATE)
     @Transactional
@@ -62,10 +57,7 @@ public class OrderService {
         order.setStatus(OrderStatus.CREATED);
         order.setCustomer(customer);
 
-        final List<OrderItem> items = request.items().stream()
-                .map(itemRequest -> createOrderItem(order, itemRequest))
-                .toList();
-
+        final List<OrderItem> items = orderItemFactory.createItems(order, request.items());
         order.setItems(items);
 
         final BigDecimal totalAmount = items.stream()
@@ -109,35 +101,6 @@ public class OrderService {
                 result.getNumber(),
                 result.getSize()
         );
-    }
-
-    private OrderItem createOrderItem(
-            final Order order,
-            final CreateOrderItemRequest request) {
-        final OrderItem item = new OrderItem();
-
-        item.setId(UUID.randomUUID());
-        item.setOrder(order);
-
-        final ProductDto product;
-        try {
-            product = catalogClient.getProductById(request.productId());
-        } catch (FeignException.NotFound ex) {
-            throw new AtlasException(AtlasErrorCode.PRODUCT_NOT_FOUND, "Product not found: " + request.productId(), ex);
-        }
-
-        item.setProductId(product.id());
-        item.setSku(product.sku());
-        item.setProductName(product.name());
-
-        item.setPrice(request.price());
-        item.setQuantity(request.quantity());
-
-        final BigDecimal lineAmount = request.price().multiply(BigDecimal.valueOf(request.quantity()));
-
-        item.setLineAmount(lineAmount);
-
-        return item;
     }
 
     private String generateOrderNumber() {
