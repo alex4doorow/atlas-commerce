@@ -11,6 +11,10 @@ spring:
         jwt:
           issuer-uri: ${ATLAS_KEYCLOACK_REALM_HOST}
 
+  threads:
+    virtual:
+      enabled: true
+
   datasource:
     url: ${ATLAS_ORDER_DATABASE_URL}
     username: ${ATLAS_ORDER_DATABASE_USER}
@@ -50,11 +54,10 @@ spring:
   profiles:
     active: prod
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,metrics,beans
+  cloud:
+    openfeign:
+      micrometer:
+        enabled: true
 
 clients:
   catalog:
@@ -74,5 +77,34 @@ atlas:
   crypto:
     enabled: true
     secret: ${ATLAS_CRYPTO_SECRET}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: ${ATLAS_OPENTELEMETRY_OTLP_URL}
+  otlp:
+    metrics:
+      export:
+        enabled: false
+
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,beans,prometheus
+
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+  endpoint:
+    prometheus:
+      access: unrestricted
 
 

@@ -1,6 +1,8 @@
 server:
   port: ${ATLAS_GATEWAY_PORT}
 
+debug: false
+
 spring:
   application:
     name: atlas-gateway
@@ -40,7 +42,34 @@ spring:
                 - Path=/api/v1/customers/**
 
 management:
+  endpoint:
+    prometheus:
+      access: unrestricted
+
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,gateway
+        include: health,info,metrics,prometheus
+
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+  otlp:
+    metrics:
+      export:
+        enabled: false
+
+  tracing:
+    sampling:
+      probability: 1.0
+
+  opentelemetry:
+    resource-attributes:
+      service.name: atlas-gateway
+
+    tracing:
+      export:
+        otlp:
+          endpoint: ${ATLAS_TRACING_OTLP_URL}

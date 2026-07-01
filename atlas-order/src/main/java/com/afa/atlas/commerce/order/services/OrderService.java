@@ -40,7 +40,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;
     private final OrderMapper mapper;
-    private final OrderItemService orderItemFactory;
+    private final OrderItemService orderItemService;
 
     @OrderAudit(operation = OrderOperation.CREATE)
     @Transactional
@@ -57,7 +57,7 @@ public class OrderService {
         order.setStatus(OrderStatus.CREATED);
         order.setCustomer(customer);
 
-        final List<OrderItem> items = orderItemFactory.createItems(order, request.items());
+        final List<OrderItem> items = orderItemService.createItems(order, request.items());
         order.setItems(items);
 
         final BigDecimal totalAmount = items.stream()

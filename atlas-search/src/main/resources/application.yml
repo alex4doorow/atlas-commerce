@@ -15,10 +15,25 @@ spring:
     password: ${RABBITMQ_PASS}
 
 management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: ${ATLAS_OPENTELEMETRY_OTLP_URL}
+
+    metrics:
+      export:
+        otlp:
+          endpoint: ${ATLAS_METRICS_OTLP_URL}
+
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,beans
+        include: health,info,metrics,beans,prometheus
 
 springdoc:
   swagger-ui:

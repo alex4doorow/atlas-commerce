@@ -82,7 +82,37 @@ services:
     volumes:
       - atlas-minio-data:/data
 
+  grafana:
+    image: grafana/grafana:12.0.2
+    container_name: atlas-grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - atlas-grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+      - tempo
+
+  prometheus:
+    image: prom/prometheus:v3.4.1
+    container_name: atlas-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
+  tempo:
+    image: grafana/tempo:2.8.1
+    container_name: atlas-tempo
+    command: [ "-config.file=/etc/tempo.yml" ]
+    ports:
+      - "3200:3200"
+      - "4318:4318"
+    volumes:
+      - ./observability/tempo/tempo.yml:/etc/tempo.yml:ro
+
 volumes:
   atlas_elasticsearch_data:
   atlas-minio-data:
   atlas-mongodb-data:
+  atlas-grafana-data:

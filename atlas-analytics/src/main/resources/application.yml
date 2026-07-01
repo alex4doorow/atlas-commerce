@@ -29,3 +29,24 @@ spring:
 
   kafka:
     bootstrap-servers: ${ATLAS_KAFKA_URL}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: ${ATLAS_OPENTELEMETRY_OTLP_URL}
+
+    metrics:
+      export:
+        otlp:
+          endpoint: ${ATLAS_METRICS_OTLP_URL}
+
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus

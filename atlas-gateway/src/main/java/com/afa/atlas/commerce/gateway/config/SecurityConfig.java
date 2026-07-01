@@ -16,16 +16,11 @@ public class SecurityConfig {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers(
-                                "/actuator/health",
-                                "/actuator/info"
-                        ).permitAll()
-
+                        .pathMatchers("/actuator/**").permitAll()
                         .pathMatchers("/api/v1/products/**").hasAnyRole("USER", "ADMIN")
                         .pathMatchers("/api/v1/search/**").hasAnyRole("USER", "ADMIN")
                         .pathMatchers("/api/v1/orders/**").hasRole("ADMIN")
                         .pathMatchers("/api/v1/customers/**").hasRole("ADMIN")
-
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2

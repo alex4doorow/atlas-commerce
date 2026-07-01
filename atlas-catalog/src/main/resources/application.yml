@@ -69,10 +69,26 @@ management:
     health:
       probes:
         enabled: true
+
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,metrics,prometheus
+
+  tracing:
+    sampling:
+      probability: 1.0
+
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: ${ATLAS_OPENTELEMETRY_OTLP_URL}
+
+    metrics:
+      export:
+        otlp:
+          endpoint: ${ATLAS_METRICS_OTLP_URL}
 
 logging:
   level:
