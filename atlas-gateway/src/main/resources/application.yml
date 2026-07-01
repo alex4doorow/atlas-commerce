@@ -5,10 +5,19 @@ spring:
   application:
     name: atlas-gateway
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${ATLAS_KEYCLOACK_REALM_HOST}
+
   cloud:
     gateway:
       server:
         webflux:
+          default-filters:
+            - AddResponseHeader=X-Gateway, atlas-gateway
+
           routes:
             - id: atlas-catalog
               uri: ${ATLAS_CATALOG_HOST}
@@ -20,8 +29,18 @@ spring:
               predicates:
                 - Path=/api/v1/search/**
 
+            - id: atlas-order
+              uri: ${ATLAS_ORDER_HOST}
+              predicates:
+                - Path=/api/v1/orders/**
+
+            - id: atlas-customers
+              uri: ${ATLAS_ORDER_HOST}
+              predicates:
+                - Path=/api/v1/customers/**
+
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: health,info,metrics,gateway
